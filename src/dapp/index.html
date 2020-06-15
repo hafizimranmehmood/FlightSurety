@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>FlightSurety</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">FlightSurety</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active" id="res-contract">
+                <a class="nav-link" href="#">Contract <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" id="res-airlines">
+                <a class="nav-link" href="#">Airlines</a>
+            </li>
+            <li class="nav-item" id="res-flights">
+                <a class="nav-link" href="#">Flights</a>
+            </li>
+            <li class="nav-item" id="res-insurance">
+                <a class="nav-link" href="#">Insurances</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container ui-container" id="res-contract-form" style="display: block">
+    <div class="row">
+        <div class="col-12">
+            <h1>Contract</h1>
+            <h3>Operational Status</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form" id="operationalState">Fetching contract operational status...</label>
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" id="toggleStatus" value="Toggle Status">
+                </div>
+
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="container ui-container" id="res-airlines-form" style="display: none">
+    <div class="row">
+        <div class="col-12">
+            <h1>Airlines</h1>
+            <h3>Register Airline</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form">Airline Name</label>
+                    <input type="text" class="form-control" id="airlineName">
+                </div>
+                <div class="form-group">
+                    <label class="form">Airline Address</label>
+                    <input type="text" class="form-control" id="airlineAddress">
+                </div>
+                <div class="form-group">
+                    <label class="form">Register From</label>
+                    <input type="text" class="form-control" id="registerFrom" placeholder="Enter address of the airline who is going to register this airline">
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" id="registerAirline" value="Register Airline">
+                </div>
+            </form>
+            <h3>Pay Registation Fee</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form">Airline Address</label>
+                    <input type="text" class="form-control" id="payFeeFrom" placeholder="Enter address of teh airline to pay fee">
+                </div>
+                <div class="form-group">
+                    <label class="form">Registration Fee</label>
+                    <input type="text" class="form-control" id="registrationFee" placeholder="10 etehr">
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" id="payFee" value="Pay Fee">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container ui-container" id="res-flights-form" style="display: none">
+    <div class="row">
+        <div class="col-12">
+            <h1>Flights</h1>
+            <h3>Register a Flight</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form">Flight Airline Address</label>
+                    <input type="text" class = "form-control" id="flightAirlineAddress">
+                </div>
+                <div class="form-group">
+                    <label class="form">Flight Number</label>
+                    <input type="text" class="form-control" id="flightNumber">
+                </div>
+                <div class="form-group">
+                    <label class="form">Departure Time</label>
+                    <input type="text" class = "form-control" id="flightDepartureTime" placeholder="Any harcode value like 10002000">
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" id="registerFlight" value="Register Flight">
+                </div>
+            </form>
+            <h3>Get Flight</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form">Flight Id</label>
+                    <input type="text" class = "form-control" id="flightId" placeholder="Enter flight id e.g. 1">
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" id="getFlight" value="Get Flight">
+                </div>
+            </form>
+            <h3>Oracles Submission</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form">Flight Id</label>
+                    <input type="text" class = "form-control" id="fId" placeholder="Enter flight id e.g. 1">
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" id="sumitToOracle" value="Submit To Oracles">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container ui-container" id="res-insurance-form" style="display: none">
+    <div class="row">
+        <div class="col-12">
+            <h1>Insurance</h1>
+            <h3>Buy Insurance</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form">Flight Id</label>
+                    <input type="text" class = "form-control" id="insuFlightId" placeholder="Enter flight id e.g. 1">
+                </div>
+                <div class="form-group">
+                    <label class="form">Insurance Amount</label>
+                    <input type="text" class = "form-control" id="insuAmount" placeholder="Enter amount upto 1 ether">
+                </div>
+                <div class="form-group">
+                    <label class="form">Passenger address</label>
+                    <input type="text" class="form-control" id="fromPassenger" placeholder="Enter address of the Passenger">
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" id="buyInsurance" value="Buy">
+                </div>
+            </form>
+            <h3>Get Insurance</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form">Insurance Id</label>
+                    <input type="text" class="form-control" id="insuranceId" placeholder="Enter Insurance Id e.g. 1">
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" id="getInsurance" value="Get Insurance">
+                </div>
+            </form>
+            <h3>Passenger Credited Amount</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form">Passenger address</label>
+                    <input type="text" class="form-control" id="passengerId">
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" id="passendgerCreditedAmount" value="Show Amount">
+                </div>
+            </form>
+            <h3>Pay Insuree Credited Amount</h3>
+            <form>
+                <div class="form-group">
+                    <label class="form">Passenger Address</label>
+                    <input type="text" class="form-control" id="payeePassengerId">
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" id="payInsureeAmount" value="Pay Insuree">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container ui-container" id="content-area">
+    <div class="row">
+        <div class="col-12">
+            <h3>Results</h3>
+            <div id="display-result" class="top-20"></div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
