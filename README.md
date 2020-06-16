@@ -17,11 +17,12 @@ npm install
 #### Start Ganache
 You will need specific configuration of ganache. So run:
 ```bash
-ganache-cli -l 999999999999 -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat" -a30
+ganache-cli -l 999999999999 -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat" -a30 -e 10000
 ```
 This command will create the local test network with the following props:
 1. gas limit = 999999999999
 2. test accounts = 30
+3. ether on each test account = 10000
 
 
 #Develop Client
@@ -41,7 +42,7 @@ npm run dapp
 
 To set everything up again, run in the project folder
 ```bash
-> ganache-cli -l 999999999999 -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat" -a30
+> ganache-cli -l 999999999999 -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat" -a30 -e 10000
 > truffle migrate 
 > npm run server
 > npm run dapp

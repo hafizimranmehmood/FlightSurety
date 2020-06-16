@@ -54,6 +54,7 @@ import './flightsurety.css';
             let airline = DOM.elid("airlineAddress").value;
             let from = DOM.elid("registerFrom").value;
             let err, result, label, info;
+            let code = -1;
             try {
                     await contract.registerAirline(airline, name, from, 
                     (registered, votesLeft) => {
@@ -67,6 +68,11 @@ import './flightsurety.css';
                         result = `Airline ${name} is not registered yet. To register it ${votesLeft} more vote(s) needed`;
                         info = 'Airline is not registered'
                     }
+
+                    if(code >= 0)
+                        return
+                    code = votesLeft;
+
 
                     display("Airline Status", info,[ { label: label, error: err, value: result } ]);
                     
@@ -117,8 +123,11 @@ import './flightsurety.css';
         DOM.elid("sumitToOracle").addEventListener("click", async () => {
             let fId = DOM.elid("fId").value;
             let err, result, status;
+            let code = -1;
             try {
-                result = await contract.fetchFlightStatus(fId, (statusCode) => {
+                result = 'Fetching...';
+                await contract.fetchFlightStatus(fId, (statusCode) => {
+
                     if(statusCode == 0)
                         status = 'Unknown';
                     else if(statusCode == 10)
@@ -131,6 +140,10 @@ import './flightsurety.css';
                         status = 'Late due to technical issues';
                     else if(statusCode == 50)
                         status = 'Late due to other reason';
+
+                    if(code >= 0)
+                        return
+                    code = statusCode;
 
                     display('Flight Status Update', 'Updated flight status received from Oracle server.',
                     [

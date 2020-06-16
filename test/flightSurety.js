@@ -94,7 +94,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
   it('Airline can pay registration fee', async () => {
     const initialBalance = await web3.eth.getBalance(config.flightSuretyData.address);
-    await config.flightSuretyApp.payAirlineRegistrationFee({ from: config.firstAirline, value: airlineFee });
+    await config.flightSuretyApp.payAirlineRegistrationFee({ from: config.firstAirline, value: airlineFee, gas: 999999999});
 
     const airline = await config.flightSuretyData.airlines.call(config.firstAirline);
     assert(airline.paidFee, 'Airline should be able to pay fee');
@@ -109,7 +109,7 @@ contract('Flight Surety Tests', async (accounts) => {
     // ARRANGE
     let newAirline = accounts[2];
 
-    await config.flightSuretyApp.registerAirline(newAirline, "SecondAir", {from: config.firstAirline});
+    await config.flightSuretyApp.registerAirline(newAirline, "SecondAir", {from: config.firstAirline, gas: 999999999});
     let result = await config.flightSuretyData.isAirLineRegistered.call(newAirline); 
 
     // ASSERT
@@ -123,8 +123,8 @@ contract('Flight Surety Tests', async (accounts) => {
     let newAirline = accounts[3];
 
     // ACT
-    await config.flightSuretyApp.payAirlineRegistrationFee({ from: accounts[2], value: airlineFee })
-    await config.flightSuretyApp.registerAirline(newAirline, "ThirdAir", {from: accounts[2]});
+    await config.flightSuretyApp.payAirlineRegistrationFee({ from: accounts[2], value: airlineFee, gas: 999999999 })
+    await config.flightSuretyApp.registerAirline(newAirline, "ThirdAir", {from: accounts[2], gas: 999999999});
 
     let total = await config.flightSuretyData.totalRegisteredAirlines.call();
     let result = await config.flightSuretyData.isAirLineRegistered.call(newAirline); 
@@ -137,7 +137,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
   it('(multiparty) After adding the 4th airline, 50% consensus needed from registed airlines to register a new airline', async () => {
     
-    await config.flightSuretyApp.registerAirline(accounts[4], "FourthAir", {from: config.firstAirline});
+    await config.flightSuretyApp.registerAirline(accounts[4], "FourthAir", {from: config.firstAirline, gas: 999999999});
     
     let count = await config.flightSuretyData.totalRegisteredAirlines.call();
     assert.equal(count, 4, "Count should be 4 now");
@@ -175,7 +175,7 @@ contract('Flight Surety Tests', async (accounts) => {
   });
  
   it('An airline should be able to register a flight', async () => {
-    const result = await config.flightSuretyApp.registerFlight(flightNumber, departureTime, { from: config.firstAirline });
+    const result = await config.flightSuretyApp.registerFlight(flightNumber, departureTime, { from: config.firstAirline , gas: 999999999});
     assert.equal(result.logs[0].event, 'FlightRegistered', "Error while registering a flight");
 
     const flightKey = await config.flightSuretyApp.getFlightKey(config.firstAirline, flightNumber, departureTime);
@@ -199,7 +199,7 @@ contract('Flight Surety Tests', async (accounts) => {
     let insuranceFee = web3.utils.toWei('1', 'ether');
     let reverted = false;
     try {
-        const result = await config.flightSuretyApp.buyInsurance(config.firstAirline, flightNumber, departureTime, { from: accounts[6], value: insuranceFee });
+        const result = await config.flightSuretyApp.buyInsurance(config.firstAirline, flightNumber, departureTime, { from: accounts[6], value: insuranceFee, gas: 999999999 });
     } catch (error) {
         reverted = true;
     }
@@ -222,7 +222,7 @@ contract('Flight Surety Tests', async (accounts) => {
   it('Insuree credit amount should be 1.5% of the insurance he paid in case of there is a delay in flight', async () => {
     
     let insuranceAmount = web3.utils.toWei('1', 'ether');
-    const result = await config.flightSuretyApp.processFlightStatus(config.firstAirline, flightNumber, departureTime, 20, {from: config.firstAirline});
+    const result = await config.flightSuretyApp.processFlightStatus(config.firstAirline, flightNumber, departureTime, 20, {from: config.firstAirline, gas: 999999999});
     const flight = await config.flightSuretyApp.getFlight.call(1, {from : accounts[6]});
     const creditedAmount = await config.flightSuretyApp.getInsureeCreditAmount.call({from : accounts[6]});
     assert.equal(creditedAmount, Math.floor(insuranceAmount * 3/2), 'Credited amount is not 1.5% of the actual')
@@ -237,7 +237,7 @@ contract('Flight Surety Tests', async (accounts) => {
   it('A pessenger should be able to withdraw 1.5% of the insurance he paid in case of there is a delay in flight', async () => {
     
     const initialBalance = new BigNumber(await web3.eth.getBalance(accounts[6]));
-    const result = await config.flightSuretyApp.payInsuree(accounts[6], {from: accounts[6]});
+    const result = await config.flightSuretyApp.payInsuree(accounts[6], {from: accounts[6], gas: 999999999});
     const currentBalance = new BigNumber(await web3.eth.getBalance(accounts[6]));
 
     assert(currentBalance.isGreaterThan(initialBalance), 'Problem in insuree credit amount withdrawal');

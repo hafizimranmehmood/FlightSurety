@@ -82,7 +82,7 @@ export default class Contract {
 
     async payAirlineRegistrationFee(_from, regFee){
         let fee = this.web3.utils.toWei(regFee, 'ether');
-        return await this.flightSuretyApp.methods.payAirlineRegistrationFee().send({from: _from, value: fee});   
+        return await this.flightSuretyApp.methods.payAirlineRegistrationFee().send({from: _from, value: fee, gas: 999999999});   
     }
 
     async registerFlight(airline, flightNumber, departureTime){
@@ -112,7 +112,7 @@ export default class Contract {
             }
         )
         
-        await this.flightSuretyApp.methods.fetchFlightStatus(res.airline, res.flightNumber, res.departureTime).send({from: res.airline});
+        await this.flightSuretyApp.methods.fetchFlightStatus(res.airline, res.flightNumber, res.departureTime).send({from: res.airline, gas: 999999999});
     }
 
     async buyInsurance(fromPassenger, flightId, amount){
@@ -131,7 +131,7 @@ export default class Contract {
     }
 
     async payInsuree(passengerId){
-        return await this.flightSuretyApp.methods.payInsuree(passengerId).send({from: passengerId});
+        return await this.flightSuretyApp.methods.payInsuree(passengerId).send({from: passengerId, gas: 999999999});
     }
 
 }

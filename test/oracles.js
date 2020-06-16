@@ -26,11 +26,11 @@ contract('Oracles', async (accounts) => {
     await config.flightSuretyData.authorizeCaller(config.flightSuretyApp.address);
 
     // lets pay airlien fee and register flight  
-    await config.flightSuretyApp.payAirlineRegistrationFee({ from: config.firstAirline, value: airlineFee });
+    await config.flightSuretyApp.payAirlineRegistrationFee({ from: config.firstAirline, value: airlineFee, gas: 999999999 });
     await config.flightSuretyApp.registerFlight(flight, timestamp, { from: config.firstAirline });
 
     // pessengers buys the insurance
-    await config.flightSuretyApp.buyInsurance(config.firstAirline, flight, timestamp, { from: pessenger, value: insuranceFee });
+    await config.flightSuretyApp.buyInsurance(config.firstAirline, flight, timestamp, { from: pessenger, value: insuranceFee, gas: 999999999 });
     // Watch contract events
     
 
@@ -44,7 +44,7 @@ contract('Oracles', async (accounts) => {
 
     // ACT
     for(let a=1; a<TEST_ORACLES_COUNT; a++) {      
-      let result = await config.flightSuretyApp.registerOracle({ from: accounts[a], value: fee });
+      let result = await config.flightSuretyApp.registerOracle({ from: accounts[a], value: fee, gas: 999999999 });
       let myIndexes = await config.flightSuretyApp.getMyIndexes.call({from: accounts[a]});
       let indexes = result.logs[0].args[0];
       // console.log(`Oracle Registered: ${myIndexes[0]}, ${myIndexes[1]}, ${myIndexes[2]}`);
@@ -79,7 +79,7 @@ contract('Oracles', async (accounts) => {
         reverted = false;
         try {
           // Submit a response...it will only be accepted if there is an Index match
-          response = await config.flightSuretyApp.submitOracleResponse(oracleIndexes[idx], config.firstAirline, flight, timestamp, STATUS_CODE_LATE_AIRLINE, { from: accounts[a] });
+          response = await config.flightSuretyApp.submitOracleResponse(oracleIndexes[idx], config.firstAirline, flight, timestamp, STATUS_CODE_LATE_AIRLINE, { from: accounts[a], gas: 999999999 });
         }
         catch(e) {
           // Enable this when debugging
@@ -111,7 +111,7 @@ contract('Oracles', async (accounts) => {
   it('A pessenger should be able to withdraw 1.5% of the insurance he paid in case of there is a delay in flight', async () => {
     
     const initialBalance = new BigNumber(await web3.eth.getBalance(pessenger));
-    const result = await config.flightSuretyApp.payInsuree(pessenger, {from: pessenger});
+    const result = await config.flightSuretyApp.payInsuree(pessenger, {from: pessenger, gas: 999999999});
     const currentBalance = new BigNumber(await web3.eth.getBalance(pessenger));
 
     assert(currentBalance.isGreaterThan(initialBalance), 'Problem in insuree credit amount withdrawal');
